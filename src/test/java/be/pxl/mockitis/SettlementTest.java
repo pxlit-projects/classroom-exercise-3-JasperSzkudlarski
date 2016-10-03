@@ -16,57 +16,45 @@ public class SettlementTest {
 
     @Test
     public void settlement_WhenMoreSettlersAssignedToDefenseThanAmountOfRaiders_CanDefendItself() throws Exception {
-        Raiders raiders = mock(Raiders.class);
-        when(raiders.getAmountOfRaiders()).thenReturn(1);
+    	Raiders raiders = new RaiderTestBuilder()
+    	.hasLegendary(false)
+    	.numberOfRaiders(1)
+    	.build();
 
-        Settler defender = mock(Settler.class);
-        Settler farmer = mock(Settler.class);
-        Settler clerk = mock(Settler.class);
-
-        List<Settler> settlers = Arrays.asList(defender, farmer, clerk);
-        when(defender.isAssignedToDefense()).thenReturn(true);
-        when(farmer.isAssignedToDefense()).thenReturn(false);
-        when(clerk.isAssignedToDefense()).thenReturn(false);
-
-        Settlement settlement = new Settlement(settlers);
+        Settlement settlement = new SettlementTestBuilder()
+        .AmountOfPlebs(2)
+        .AmountOfDefenders(2)
+        .build();
 
         assertThat(settlement.defend(raiders)).isTrue();
     }
 
     @Test
     public void settlement_WhenEqualSettlersAssignedToDefenseThanAmountOfRaiders_CanDefendItself() throws Exception {
-        Raiders raiders = mock(Raiders.class);
-        when(raiders.getAmountOfRaiders()).thenReturn(2);
+    	Raiders raiders = new RaiderTestBuilder()
+    	.hasLegendary(false)
+    	.numberOfRaiders(1)
+    	.build();
 
-        Settler defender = mock(Settler.class);
-        Settler farmer = mock(Settler.class);
-        Settler clerk = mock(Settler.class);
-
-        List<Settler> settlers = Arrays.asList(defender, farmer, clerk);
-        when(defender.isAssignedToDefense()).thenReturn(true);
-        when(farmer.isAssignedToDefense()).thenReturn(true);
-        when(clerk.isAssignedToDefense()).thenReturn(false);
-
-        Settlement settlement = new Settlement(settlers);
+        Settlement settlement = new SettlementTestBuilder()
+        .AmountOfPlebs(2)
+        .AmountOfDefenders(1)
+        .build();
 
         assertThat(settlement.defend(raiders)).isTrue();
     }
 
     @Test
     public void settlement_WhenLessSettlersAssignedToDefenseThanAmountOfRaiders_CanNotDefendItself() throws Exception {
-        Raiders raiders = mock(Raiders.class);
-        when(raiders.getAmountOfRaiders()).thenReturn(2);
+    	Raiders raiders = new RaiderTestBuilder()
+    	.hasLegendary(false)
+    	.numberOfRaiders(9001)
+    	.build();
 
-        Settler defender = mock(Settler.class);
-        Settler farmer = mock(Settler.class);
-        Settler clerk = mock(Settler.class);
-
-        List<Settler> settlers = Arrays.asList(defender, farmer, clerk);
-        when(defender.isAssignedToDefense()).thenReturn(true);
-        when(farmer.isAssignedToDefense()).thenReturn(false);
-        when(clerk.isAssignedToDefense()).thenReturn(false);
-
-        Settlement settlement = new Settlement(settlers);
+        Settlement settlement = new SettlementTestBuilder()
+        .AmountOfPlebs(2)
+        .AmountOfDefenders(1)
+        .build();
 
         assertThat(settlement.defend(raiders)).isFalse();
     }
